@@ -28,5 +28,5 @@ class InputNeauron(Neauron):
 
     
     
-##test
+
 
