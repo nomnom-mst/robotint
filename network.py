@@ -3,12 +3,15 @@ import neuron
 
 
 _input[i] = np.random.rand(100)
+answer[out_num] = [hoge]
 w[k] = np.random.rand(100);
 wo[k] = np.random.rand(100);
 
 m_num = 50
 out_num = 6
 
+
+##initial setting
 for i in range(100):
     ni[i] = neuron.InputNeuron(_input[i])
 
@@ -21,3 +24,8 @@ for j in range(out_num):
     no[j] = neuron.Neuron()
     for k in range(m_num):
         no[j].connectInput(nm[k],wo[k])
+
+##learnig
+for i in range(out_num):
+    no[i].update( no[i].output - answer[j] )
+    
