@@ -1,7 +1,7 @@
 import numpy as np
 import neuron
 import glob
-from IPL import Image
+from PIL import Image
 
 _input[i] = np.random.rand(100)
 answer[out_num] = [hoge]
@@ -15,10 +15,12 @@ out_num = 6
 ##loading teacher image
 images = []
 for name in glob.glob('image/*.jpg'):
-    images.append(Image.open(name))
+    images.append(Image.open(name).getdata())
 
-for image in images:
-    image.show()    
+for i in images:
+    print i
+
+    
 
 
 ##initial setting
