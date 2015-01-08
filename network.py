@@ -1,7 +1,7 @@
 import numpy as np
 import neuron
 import glob
-from IPL import Image
+from PIL import Image
 
 _input[i] = np.random.rand(100)
 answer[out_num] = [hoge]
@@ -15,10 +15,7 @@ out_num = 6
 ##loading teacher image
 images = []
 for name in glob.glob('image/*.jpg'):
-    images.append(Image.open(name))
-
-for image in images:
-    image.show()    
+    images.append(Image.open(name).convert('L').getdata())
 
 
 ##initial setting
@@ -32,14 +29,25 @@ for j in range(m_num):
 
 for j in range(out_num):
     no[j] = neuron.Neuron()
-    no[j].generateDelta
     for k in range(m_num):
         no[j].connect(nm[k],wo[k])
 
-for j in range(m_num):
-    nm[j].calculateDelta
 
 
 ##learnig
-for i in range(out_num):
-    no[i].update( no[i].output - answer[j] )
+for image in images:
+    for i,data in enumerate(image):
+        ni[i].refreshdata(data)
+
+    ####output
+
+    ###bp learning
+    for j in range(out_num):
+        no[j].generateDelta
+   
+    for j in range(m_num):
+        nm[j].calculateDelta
+
+    ###learning
+    for i in range(out_num):
+        no[i].update( no[i].output - answer[j] )

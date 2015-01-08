@@ -47,3 +47,6 @@ class InputNeuron(Neuron):
     
     def output(self):
         return self.prev
+
+    def refreshdata(self,data):
+        self.prev = data
