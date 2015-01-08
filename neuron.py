@@ -24,10 +24,13 @@ class Neuron:
     def calculateDelta(self):
         for i in range(int(self.nextcount)):
             self.delta += self.next[i][1] * self.next[i][0].delta
+            dsigma = ALPHA * self.output() * (1-self.output())
+            self.delta *= dsigma
                        
-    def connectPrev(self,x,w):
+    def connect(self,x,w):
         self.prev.append([x,w])
         self.prevcount += 1
+        x.connectNext(self,w)
 
     def connectNext(self,x,w):
         self.next.append([x,w])
