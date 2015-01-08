@@ -20,7 +20,7 @@ class Neuron:
         self.prev.append([x,w])
         self.count += 1
 
-    def update(self,diff,w):
+    def update(self,diff):
         dsigma = ALPHA * self.output() * (1-self.output())
         delta = diff * dsigma
         for i in range(int(self.count)):
