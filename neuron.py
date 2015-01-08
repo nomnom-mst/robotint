@@ -6,25 +6,36 @@ class Neuron:
 
     def __init__(self):
         self.prev = []
-        self.count = 0
+        self.prevcount = 0
+        self.next =[]
+        self.nextcount = 0
+        self.delta = 0
 
-        
     def output(self):
         u = 0.0
-        for i in range(int(self.count)):
+        for i in range(int(self.prevcount)):
             u += self.prev[i][0].output() * self.prev[i][1]
-
         return 1.0 / ( 1.0 + np.exp(-ALPHA*u))
+
+    def generateDelta(self):
+        dsigma = ALPHA * self.output() * (1-self.output())
+        self.delta = diff * dsigma
+
+    def calculateDelta(self):
+        for i in range
+        self.delta = ###
                        
     def connectPrev(self,x,w):
         self.prev.append([x,w])
-        self.count += 1
+        self.prevcount += 1
+
+    def connectNext(self,x):
+        self.next.append([x])
+        self.nextcount += 1
 
     def update(self,diff):
-        dsigma = ALPHA * self.output() * (1-self.output())
-        delta = diff * dsigma
-        for i in range(int(self.count)):
-            self.prev[i][1] -= ETA * delta * self.prev[i][0].output()
+        for i in range(int(self.prevcount)):
+            self.prev[i][1] -= ETA * self.delta * self.prev[i][0].output()
         
 class InputNeuron(Neuron):
 

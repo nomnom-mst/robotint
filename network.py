@@ -10,7 +10,6 @@ wo[k] = np.random.rand(100);
 m_num = 50
 out_num = 6
 
-
 ##initial setting
 for i in range(100):
     ni[i] = neuron.InputNeuron(_input[i])
@@ -18,14 +17,19 @@ for i in range(100):
 for j in range(m_num):
     nm[j] = neuron.Neuron()
     for k in range(100):
-        nm[j].connectInput(ni[k],w[k])
+        nm[j].connectPrev(ni[k],w[k])
+        ni[k].connectNext(nm[j])
 
 for j in range(out_num):
     no[j] = neuron.Neuron()
+    no[j].generateDelta
     for k in range(m_num):
-        no[j].connectInput(nm[k],wo[k])
+        no[j].connectPrev(nm[k],wo[k])
+        nm[k].connectNext(no[j])
+
+for j in range(m_num):
+    nm[j].calculateDelta
 
 ##learnig
 for i in range(out_num):
     no[i].update( no[i].output - answer[j] )
-    
