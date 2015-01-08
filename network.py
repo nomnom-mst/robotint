@@ -28,18 +28,17 @@ for i in range(100):
 for j in range(m_num):
     nm[j] = neuron.Neuron()
     for k in range(100):
-        nm[j].connectPrev(ni[k],w[k])
-        ni[k].connectNext(nm[j])
+        nm[j].connect(ni[k],w[k])
 
 for j in range(out_num):
     no[j] = neuron.Neuron()
     no[j].generateDelta
     for k in range(m_num):
-        no[j].connectPrev(nm[k],wo[k])
-        nm[k].connectNext(no[j])
+        no[j].connect(nm[k],wo[k])
 
 for j in range(m_num):
     nm[j].calculateDelta
+
 
 ##learnig
 for i in range(out_num):
