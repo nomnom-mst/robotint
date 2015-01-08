@@ -36,10 +36,11 @@ for j in range(out_num):
 
 ##learnig
 for image in images:
+
+    ### new data loading
     for i,data in enumerate(image):
         ni[i].refreshdata(data)
 
-    ####output
 
     ###bp learning
     for j in range(out_num):

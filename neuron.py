@@ -19,7 +19,7 @@ class Neuron:
 
     def generateDelta(self):
         dsigma = ALPHA * self.output() * (1-self.output())
-        self.delta = diff * dsigma
+        self.delta = diff * dsigma ##diff
 
     def calculateDelta(self):
         for i in range(int(self.nextcount)):
