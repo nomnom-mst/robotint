@@ -3,52 +3,94 @@ import neuron
 import glob
 from PIL import Image
 
-_input[i] = np.random.rand(100)
-answer[out_num] = [hoge]
-w[k] = np.random.rand(100);
-wo[k] = np.random.rand(100);
-
-m_num = 50
+m_num = 200
 out_num = 6
 
+_input = np.random.rand(100)
+answer = [[1,0,0,0,0,0],[0,1,0,0,0,0],[0,0,1,0,0,0],[0,0,0,1,0,0],[0,0,0,0,1,0]]
+w = np.random.normal(0,0.1,size=(m_num,100)) 
+wo = np.random.normal(0,0.1,size=(out_num,m_num))
 
-##loading teacher image
+print w
+
+##loading teacher image  --- OK
 images = []
 for name in glob.glob('image/*.jpg'):
     images.append(Image.open(name).convert('L').getdata())
+    print name
 
 
-##initial setting
+##initial setting --- OK
+print 'initialize'
+nInput = []
+nMiddle = []
+nOutput = []
 for i in range(100):
-    ni[i] = neuron.InputNeuron(_input[i])
-
+    nInput.append( neuron.InputNeuron(_input[i]) )    
 for j in range(m_num):
-    nm[j] = neuron.Neuron()
+    #nMiddle.append(neuron.Neuron(1.0/4000))
+    nMiddle.append(neuron.Neuron(1.0))
     for k in range(100):
-        nm[j].connect(ni[k],w[k])
-
+        nMiddle[j].connect(nInput[k],w[j][k])
+####    print nMiddle[j].output()
 for j in range(out_num):
-    no[j] = neuron.Neuron()
+    nOutput.append(neuron.Neuron(1.0))
     for k in range(m_num):
-        no[j].connect(nm[k],wo[k])
+        nOutput[j].connect(nMiddle[k],wo[j][k])
+    print nOutput[j].output()
 
 
 
-##learnig
+
+
+
+##learning --?
+print 'learning'
+repeatNum = 10
+for k in range(repeatNum):
+    for j,image in enumerate(images):
+
+        
+    ### new data loading--OK
+        for i,data in enumerate(image):
+            nInput[i].refreshdata(data/255.0)
+        
+
+
+    ###delta --too small
+        test3 = []
+        for i in range(out_num):
+            nOutput[i].generateDelta(nOutput[i].output() - answer[j][i])
+            test3.append(nOutput[i].output() - answer[j][i])
+        ####print test3
+        ####    print nOutput[i].delta
+            
+        for neu in nMiddle :
+            neu.calculateDelta()
+           #### print neu.delta
+
+    ###learning---maybe OK
+        result2 = []
+        for neu in nOutput :
+            neu.update()
+            result2.append(neu.output())
+       #### print result2
+            
+    ###BPLearning
+        for neu in nMiddle:
+            neu.update()
+
+
+
+##test---OK
+print 'test now'
+result = []
 for image in images:
+    for i ,data in enumerate(image):
+        nInput[i].refreshdata(data)
 
-    ### new data loading
-    for i,data in enumerate(image):
-        ni[i].refreshdata(data)
-
-
-    ###bp learning
-    for j in range(out_num):
-        no[j].generateDelta
-   
-    for j in range(m_num):
-        nm[j].calculateDelta
-
-    ###learning
     for i in range(out_num):
-        no[i].update( no[i].output - answer[j] )
+        result.append(nOutput[i].output())
+    print result
+
+    result = []
