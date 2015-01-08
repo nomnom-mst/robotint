@@ -1,6 +1,7 @@
 import numpy as np
 import neuron
-
+import glob
+from IPL import Image
 
 _input[i] = np.random.rand(100)
 answer[out_num] = [hoge]
@@ -9,6 +10,16 @@ wo[k] = np.random.rand(100);
 
 m_num = 50
 out_num = 6
+
+
+##loading teacher image
+images = []
+for name in glob.glob('image/*.jpg'):
+    images.append(Image.open(name))
+
+for image in images:
+    image.show()    
+
 
 ##initial setting
 for i in range(100):
