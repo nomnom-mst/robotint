@@ -12,7 +12,7 @@ out_num = 6
 _input = np.random.rand(100)
 w = np.random.normal(0,0.1,size=(m_num,100)) 
 wo = np.random.normal(0,0.1,size=(out_num,m_num))
-answer = [[1,0,0,0,0,0],[0,1,0,0,0,0],[0,0,1,0,0,0],[0,0,0,1,0,0],[0,0,0,0,1,0]]
+answer = [[1,0,0,0,0,0],[0,1,0,0,0,0],[0,0,1,0,0,0],[0,0,0,1,0,0],[0,0,0,0,1,0],[0,0,0,0,0,1]]
 
 
 ##loading teacher image  --- OK
