@@ -17,14 +17,13 @@ class Neuron:
         u = 0.0
         for i in range(int(self.prevcount)):
             u += self.prev[i][0].output() * self.prev[i][1]
-####        print u*self.ALPHA
         return 1.0 / ( 1.0 + np.exp(-self.ALPHA*u))
 
-    def generateDelta(self,diff):
-        dsigma = self.ALPHA * self.output() * (1-self.output())
-        self.delta = diff * dsigma ##diff
+    def generateDelta(self,diff,estY): ###use on nOutput
+        dsigma = self.ALPHA * estY * (1-estY)
+        self.delta = diff * dsigma 
       
-    def calculateDelta(self):
+    def calculateDelta(self): ###use on nMiddle
         for i in range(int(self.nextcount)):
             self.delta += self.next[i][1] * self.next[i][0].delta
             dsigma = self.ALPHA * self.output() * (1-self.output())
@@ -41,7 +40,6 @@ class Neuron:
 
     def update(self):
         for i in range(int(self.prevcount)):
-    ####        print self.prev[i][1] ,self.ETA * self.delta * self.prev[i][0].output()
             self.prev[i][1] -= self.ETA * self.delta * self.prev[i][0].output()
         
 class InputNeuron(Neuron):
