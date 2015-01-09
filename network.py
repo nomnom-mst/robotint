@@ -106,12 +106,12 @@ for k in range(repeatNum):
 
 
 print 'finish learning'
-print "eva =", eva
-print "count =", execute_count
+
 
 ##test---OK
 print 'test now'
-for image in images:
+temp = 0
+for j,image in enumerate(images):
     result = []
 
     for i ,data in enumerate(image):
@@ -120,4 +120,9 @@ for image in images:
 
     for i in range(out_num):
         result.append(nOutput[i].output())
+        temp += (nOutput[i].output() - answer[j][i])**2
     print result
+
+eff = np.sqrt(temp)
+print "efficient =", eff
+print "count =", execute_count
