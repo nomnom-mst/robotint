@@ -104,16 +104,15 @@ for k in range(repeatNum):
 
 
 print 'finish learning'
-print '*** printing coefficient***'
-print "repeat num=", repeatNum*out_num
-print "eva =", eva
-print "noise probability= ",noiseProb
-print "ALPHA = ",1,"ETA=",neuron.Neuron.ETA
+
+
+
 
 
 ##test---OK
 print 'test now'
-for image in images:
+temp = 0
+for j,image in enumerate(images):
     result = []
 
     for i ,data in enumerate(image):
@@ -122,4 +121,18 @@ for image in images:
 
     for i in range(out_num):
         result.append(nOutput[i].output())
+        temp += (nOutput[i].output() - answer[j][i])**2
     print result
+
+eff = np.sqrt(temp)
+
+
+print '*** printing coefficient***'
+print 'middle layer neuron number =',m_num
+print "repeat num=", repeatNum*out_num
+print "efficient =", eff
+print "noise probability= ",noiseProb
+print "eva =", eva
+print "ALPHA = ",1,"ETA=",neuron.Neuron.ETA
+
+
