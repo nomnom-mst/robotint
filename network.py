@@ -6,9 +6,9 @@ import sys
 
 ## parameter
 repeatNum = 1000
-m_num = 6
+m_num = 10
 out_num = 6
-noiseProb = 0.1
+
 
 ## get noise probability
 argvs = sys.argv
@@ -79,8 +79,9 @@ for k in range(repeatNum):
     ### delta
         diff = []
         for i in range(out_num):
-            diff.append(nOutput[i].output() - answer[j][i])
-            nOutput[i].generateDelta(diff[i])
+            tempY = nOutput[i].output()
+            diff.append(tempY - answer[j][i])
+            nOutput[i].generateDelta(diff[i],tempY)
 
         
         for neu in nMiddle :
@@ -98,13 +99,13 @@ for k in range(repeatNum):
             temp += d**2
             count += 1
         eva = np.sqrt(temp) / count
-       # print eva
+        print eva
 
         if (eva < 0.001):
             break
     if (eva < 0.001):
         break
-    execute_count = k+1
+
 
 
 print 'finish learning'

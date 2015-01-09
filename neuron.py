@@ -19,8 +19,8 @@ class Neuron:
             u += self.prev[i][0].output() * self.prev[i][1]
         return 1.0 / ( 1.0 + np.exp(-self.ALPHA*u))
 
-    def generateDelta(self,diff): ###use on nOutput
-        estY = self.output()
+    def generateDelta(self,diff,estY): ###use on nOutput
+###        estY = self.output()
         dsigma = self.ALPHA * estY * (1-estY)
         self.delta = diff * dsigma 
       
@@ -47,13 +47,13 @@ class Neuron:
 class InputNeuron(Neuron):
 
     def __init__(self,y):
-        self.prev = y        
+        self.data = y        
     
     def output(self):
-        return self.prev
+        return self.data
 
     def connectNext(self,x,w):
         pass
 
     def refreshdata(self,data):
-        self.prev = data
+        self.data = data
