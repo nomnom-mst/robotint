@@ -2,18 +2,39 @@ import numpy as np
 import neuron
 import glob
 from PIL import Image
+import sys
 
 ## parameter
-repeatNum = 1000
+repeatNum = 10
 m_num = 10
 out_num = 6
+noiseProb = 0.1
+
+## get noise
+argvs = sys.argv
+argc = len(argvs)
+
+if (argc == 1):
+    noiseProb = 0
+elif (argc == 2):
+    noiseProb = float(argvs[1])
+else:
+    print "Please input noise probability!"
+    quit()
+
+## define noise generator function
+def NoiseGenerator(data):
+    noise = 255 * np.random.rand()
+    prob = np.random.rand()
+    if prob > 1-noiseProb:
+        data = noise
+    return data
 
 ## initial dummy data
 _input = np.random.rand(100)
 w = np.random.normal(0,0.1,size=(m_num,100)) 
 wo = np.random.normal(0,0.1,size=(out_num,m_num))
 answer = [[1,0,0,0,0,0],[0,1,0,0,0,0],[0,0,1,0,0,0],[0,0,0,1,0,0],[0,0,0,0,1,0],[0,0,0,0,0,1]]
-
 
 ##loading teacher image  --- OK
 images = []
@@ -42,11 +63,10 @@ for j in range(out_num):
     print nOutput[j].output() ####Printing initial output
 
 
-##learning --?
+##learning --OK
 print 'learning now'
 for k in range(repeatNum):
     for j,image in enumerate(images):
-
         
     ### new data loading--OK
         for i,data in enumerate(image):
@@ -74,11 +94,13 @@ print 'finish learning'
 print 'test now'
 for image in images:
     result = []
+
     for i ,data in enumerate(image):
+        data = NoiseGenerator(data)
         nInput[i].refreshdata(data)
 
     for i in range(out_num):
         result.append(nOutput[i].output())
     print result
 
-
+##evaluation
