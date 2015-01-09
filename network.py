@@ -80,8 +80,8 @@ for k in range(repeatNum):
         diff = []
         for i in range(out_num):
             diff.append(nOutput[i].output() - answer[j][i])
-            nOutput[i].generateDelta(diff[i],nOutput[i],output())
-           
+            nOutput[i].generateDelta(diff[i])
+
         
         for neu in nMiddle :
             neu.calculateDelta()
