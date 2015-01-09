@@ -6,7 +6,7 @@ import sys
 
 ## parameter
 repeatNum = 1000
-m_num = 10
+m_num = 6
 out_num = 6
 noiseProb = 0.1
 
