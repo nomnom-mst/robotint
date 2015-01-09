@@ -4,7 +4,7 @@ import glob
 from PIL import Image
 
 ## parameter
-repeatNum = 1000
+repeatNum = 10
 m_num = 10
 out_num = 6
 noiseProb = 0.1
@@ -17,8 +17,8 @@ answer = [[1,0,0,0,0,0],[0,1,0,0,0,0],[0,0,1,0,0,0],[0,0,0,1,0,0],[0,0,0,0,1,0],
 
 ##define noise generator function
 def NoiseGenerator(data):
-    noise = 255 * np.random.rand(1)
-    prob = np.random.rand(1)
+    noise = 255 * np.random.rand()
+    prob = np.random.rand()
     if prob > 1-noiseProb:
         data = noise
     return data
@@ -84,11 +84,9 @@ print 'test now'
 for image in images:
     result = []
 
-for i ,data in enumerate(image):
+    for i ,data in enumerate(image):
         nInput[i].refreshdata(data)
 
-for i in range(out_num):
+    for i in range(out_num):
         result.append(nOutput[i].output())
     print result
-
-
