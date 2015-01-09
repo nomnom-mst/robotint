@@ -5,7 +5,7 @@ from PIL import Image
 import sys
 
 ## parameter
-repeatNum = 10
+repeatNum = 1000
 m_num = 6
 out_num = 6
 noiseProb = 0.1
@@ -96,6 +96,8 @@ for k in range(repeatNum):
             temp += d**2
             count += 1
         eva = np.sqrt(temp) / count
+        print eva
+
         if (eva < 0.001):
             break
     if (eva < 0.001):
