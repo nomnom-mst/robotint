@@ -67,7 +67,6 @@ for j in range(out_num):
 print 'learning now'
 for k in range(repeatNum):
     for j,image in enumerate(images):
-
         
     ### new data loading--OK
         for i,data in enumerate(image):
