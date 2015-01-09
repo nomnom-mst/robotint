@@ -80,7 +80,9 @@ for k in range(repeatNum):
         diff = []
         for i in range(out_num):
             diff.append(nOutput[i].output() - answer[j][i])
-            nOutput[i].generateDelta(diff[i],(diff[i]+answer[j][i]))
+            nOutput[i].generateDelta(diff[i],)
+           
+        
         for neu in nMiddle :
             neu.calculateDelta()
 
@@ -96,7 +98,7 @@ for k in range(repeatNum):
             temp += d**2
             count += 1
         eva = np.sqrt(temp) / count
-        print eva
+       # print eva
 
         if (eva < 0.001):
             break
