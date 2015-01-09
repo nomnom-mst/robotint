@@ -110,9 +110,6 @@ for k in range(repeatNum):
 print 'finish learning'
 
 
-
-
-
 ##test---OK
 print 'test now'
 temp = 0
@@ -133,10 +130,8 @@ eff = np.sqrt(temp)
 
 print '*** printing coefficient***'
 print 'middle layer neuron number =',m_num
-print "repeat num=", repeatNum*out_num
+print "repeat num =", repeatNum*out_num
 print "efficient =", eff
-print "noise probability= ",noiseProb
+print "noise probability =",noiseProb
 print "eva =", eva
-print "ALPHA = ",1,"ETA=",neuron.Neuron.ETA
-
-
+print "ALPHA = ",1,", ETA =",neuron.Neuron.ETA
