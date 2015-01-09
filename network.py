@@ -70,7 +70,6 @@ for k in range(repeatNum):
         
     ### new data loading--OK
         for i,data in enumerate(image):
-            data = NoiseGenerator(data)
             nInput[i].refreshdata(data/255.0)
       
     ### delta --too small
@@ -97,8 +96,11 @@ for image in images:
     result = []
 
     for i ,data in enumerate(image):
+        data = NoiseGenerator(data)
         nInput[i].refreshdata(data)
 
     for i in range(out_num):
         result.append(nOutput[i].output())
     print result
+
+##evaluation
