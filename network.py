@@ -2,6 +2,7 @@ import numpy as np
 import neuron
 import glob
 from PIL import Image
+import sys
 
 ## parameter
 repeatNum = 10
@@ -9,19 +10,31 @@ m_num = 10
 out_num = 6
 noiseProb = 0.1
 
-## initial dummy data
-_input = np.random.rand(100)
-w = np.random.normal(0,0.1,size=(m_num,100)) 
-wo = np.random.normal(0,0.1,size=(out_num,m_num))
-answer = [[1,0,0,0,0,0],[0,1,0,0,0,0],[0,0,1,0,0,0],[0,0,0,1,0,0],[0,0,0,0,1,0],[0,0,0,0,0,1]]
+## get noise
+argvs = sys.argv
+argc = len(argvs)
 
-##define noise generator function
+if (argc == 1):
+    noiseProb = 0
+elif (argc == 2):
+    noiseProb = float(argvs[1])
+else:
+    print "Please input noise probability!"
+    quit()
+
+## define noise generator function
 def NoiseGenerator(data):
     noise = 255 * np.random.rand()
     prob = np.random.rand()
     if prob > 1-noiseProb:
         data = noise
     return data
+
+## initial dummy data
+_input = np.random.rand(100)
+w = np.random.normal(0,0.1,size=(m_num,100)) 
+wo = np.random.normal(0,0.1,size=(out_num,m_num))
+answer = [[1,0,0,0,0,0],[0,1,0,0,0,0],[0,0,1,0,0,0],[0,0,0,1,0,0],[0,0,0,0,1,0],[0,0,0,0,0,1]]
 
 ##loading teacher image  --- OK
 images = []
