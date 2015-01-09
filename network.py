@@ -3,7 +3,7 @@ import neuron
 import glob
 from PIL import Image
 
-m_num = 200
+m_num = 10
 out_num = 6
 
 _input = np.random.rand(100)
@@ -46,7 +46,7 @@ for j in range(out_num):
 
 ##learning --?
 print 'learning'
-repeatNum = 10
+repeatNum = 1000
 for k in range(repeatNum):
     for j,image in enumerate(images):
 
@@ -62,8 +62,9 @@ for k in range(repeatNum):
         for i in range(out_num):
             nOutput[i].generateDelta(nOutput[i].output() - answer[j][i])
             test3.append(nOutput[i].output() - answer[j][i])
-        ####print test3
-        ####    print nOutput[i].delta
+            print nOutput[i].delta
+        print test3
+       
             
         for neu in nMiddle :
             neu.calculateDelta()
