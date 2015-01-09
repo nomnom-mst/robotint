@@ -13,7 +13,6 @@ class Neuron:
         self.ALPHA = ALPHA
       
 
-
     def output(self):
         u = 0.0
         for i in range(int(self.prevcount)):
