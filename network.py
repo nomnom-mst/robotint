@@ -3,15 +3,17 @@ import neuron
 import glob
 from PIL import Image
 
+## parameter
+repeatNum = 1000
 m_num = 10
 out_num = 6
 
+## initial dummy data
 _input = np.random.rand(100)
-answer = [[1,0,0,0,0,0],[0,1,0,0,0,0],[0,0,1,0,0,0],[0,0,0,1,0,0],[0,0,0,0,1,0]]
 w = np.random.normal(0,0.1,size=(m_num,100)) 
 wo = np.random.normal(0,0.1,size=(out_num,m_num))
+answer = [[1,0,0,0,0,0],[0,1,0,0,0,0],[0,0,1,0,0,0],[0,0,0,1,0,0],[0,0,0,0,1,0]]
 
-print w
 
 ##loading teacher image  --- OK
 images = []
@@ -26,27 +28,22 @@ nInput = []
 nMiddle = []
 nOutput = []
 for i in range(100):
-    nInput.append( neuron.InputNeuron(_input[i]) )    
+    nInput.append( neuron.InputNeuron(_input[i]) )
+    
 for j in range(m_num):
-    #nMiddle.append(neuron.Neuron(1.0/4000))
     nMiddle.append(neuron.Neuron(1.0))
     for k in range(100):
         nMiddle[j].connect(nInput[k],w[j][k])
-####    print nMiddle[j].output()
+
 for j in range(out_num):
     nOutput.append(neuron.Neuron(1.0))
     for k in range(m_num):
         nOutput[j].connect(nMiddle[k],wo[j][k])
-    print nOutput[j].output()
-
-
-
-
+    print nOutput[j].output() ####Printing initial output
 
 
 ##learning --?
-print 'learning'
-repeatNum = 1000
+print 'learning now'
 for k in range(repeatNum):
     for j,image in enumerate(images):
 
@@ -54,39 +51,29 @@ for k in range(repeatNum):
     ### new data loading--OK
         for i,data in enumerate(image):
             nInput[i].refreshdata(data/255.0)
-        
-
-
-    ###delta --too small
-        test3 = []
+      
+    ### delta --too small
         for i in range(out_num):
             nOutput[i].generateDelta(nOutput[i].output() - answer[j][i])
-            test3.append(nOutput[i].output() - answer[j][i])
-            print nOutput[i].delta
-        print test3
-       
             
         for neu in nMiddle :
             neu.calculateDelta()
-           #### print neu.delta
 
     ###learning---maybe OK
-        result2 = []
         for neu in nOutput :
             neu.update()
-            result2.append(neu.output())
-       #### print result2
-            
+                    
     ###BPLearning
         for neu in nMiddle:
             neu.update()
 
+print 'finish learning'
 
 
 ##test---OK
 print 'test now'
-result = []
 for image in images:
+    result = []
     for i ,data in enumerate(image):
         nInput[i].refreshdata(data)
 
@@ -94,4 +81,4 @@ for image in images:
         result.append(nOutput[i].output())
     print result
 
-    result = []
+
