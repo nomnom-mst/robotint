@@ -7,13 +7,21 @@ from PIL import Image
 repeatNum = 1000
 m_num = 10
 out_num = 6
+noiseProb = 0.1
 
 ## initial dummy data
 _input = np.random.rand(100)
 w = np.random.normal(0,0.1,size=(m_num,100)) 
 wo = np.random.normal(0,0.1,size=(out_num,m_num))
-answer = [[1,0,0,0,0,0],[0,1,0,0,0,0],[0,0,1,0,0,0],[0,0,0,1,0,0],[0,0,0,0,1,0]]
+answer = [[1,0,0,0,0,0],[0,1,0,0,0,0],[0,0,1,0,0,0],[0,0,0,1,0,0],[0,0,0,0,1,0],[0,0,0,0,0,1]]
 
+##define noise generator function
+def NoiseGenerator(data):
+    noise = 255 * np.random.rand(1)
+    prob = np.random.rand(1)
+    if prob > 1-noiseProb:
+        data = noise
+    return data
 
 ##loading teacher image  --- OK
 images = []
@@ -42,7 +50,7 @@ for j in range(out_num):
     print nOutput[j].output() ####Printing initial output
 
 
-##learning --?
+##learning --OK
 print 'learning now'
 for k in range(repeatNum):
     for j,image in enumerate(images):
@@ -50,6 +58,7 @@ for k in range(repeatNum):
         
     ### new data loading--OK
         for i,data in enumerate(image):
+            data = NoiseGenerator(data)
             nInput[i].refreshdata(data/255.0)
       
     ### delta --too small
@@ -74,10 +83,11 @@ print 'finish learning'
 print 'test now'
 for image in images:
     result = []
-    for i ,data in enumerate(image):
+
+for i ,data in enumerate(image):
         nInput[i].refreshdata(data)
 
-    for i in range(out_num):
+for i in range(out_num):
         result.append(nOutput[i].output())
     print result
 
