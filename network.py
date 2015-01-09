@@ -5,7 +5,7 @@ from PIL import Image
 import sys
 
 ## parameter
-repeatNum = 1000
+repeatNum = 2000
 m_num = 10
 out_num = 6
 
