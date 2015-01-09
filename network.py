@@ -5,8 +5,8 @@ from PIL import Image
 import sys
 
 ## parameter
-repeatNum = 10
-m_num = 10
+repeatNum = 1000
+m_num = 6
 out_num = 6
 noiseProb = 0.1
 
@@ -65,6 +65,8 @@ for j in range(out_num):
 
 ##learning --OK
 print 'learning now'
+temp = 0
+count = 0
 for k in range(repeatNum):
     for j,image in enumerate(images):
         
@@ -73,8 +75,10 @@ for k in range(repeatNum):
             nInput[i].refreshdata(data/255.0)
       
     ### delta --too small
+        diff = []
         for i in range(out_num):
-            nOutput[i].generateDelta(nOutput[i].output() - answer[j][i])
+            diff.append(nOutput[i].output() - answer[j][i])
+            nOutput[i].generateDelta(diff[i])
             
         for neu in nMiddle :
             neu.calculateDelta()
@@ -87,8 +91,23 @@ for k in range(repeatNum):
         for neu in nMiddle:
             neu.update()
 
-print 'finish learning'
+    ##evaluation
+        for d in diff:
+            temp += d**2
+            count += 1
 
+        eva = np.sqrt(temp) / count
+        print eva
+        if (eva < 0.001):
+            break
+    if (eva < 0.001):
+        break
+    execute_count = k+1
+
+
+print 'finish learning'
+print "eva =", eva
+print "count =", execute_count
 
 ##test---OK
 print 'test now'
@@ -96,11 +115,9 @@ for image in images:
     result = []
 
     for i ,data in enumerate(image):
-        data = NoiseGenerator(data)
+        data = NoiseGenerator(data) ###plus noise on data
         nInput[i].refreshdata(data)
 
     for i in range(out_num):
         result.append(nOutput[i].output())
     print result
-
-##evaluation
