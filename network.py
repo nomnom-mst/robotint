@@ -2,24 +2,25 @@ import numpy as np
 import neuron
 import glob
 from PIL import Image
-import sys
+#import sys
 
 ## parameter
 repeatNum = 2000
 m_num = 10
 out_num = 6
+noiseProb = 0
 
 
 ## get noise probability
-argvs = sys.argv
-argc = len(argvs)
-if (argc == 1):
-    noiseProb = 0
-elif (argc == 2):
-    noiseProb = float(argvs[1])
-else:
-    print "Please input noise probability!"
-    quit()
+#argvs = sys.argv
+#argc = len(argvs)
+#if (argc == 1):
+#    noiseProb = 0
+#elif (argc == 2):
+#    noiseProb = float(argvs[1])
+#else:
+#    print "Please input noise probability!"
+#    quit()
 
     
 ## define noise generator function
@@ -114,25 +115,35 @@ print 'finish learning'
 ##test---OK
 print 'test now'
 temp = 0
-for j,image in enumerate(images):
-    result = []
+eff = []
 
-    for i ,data in enumerate(image):
-        data = NoiseGenerator(data) ###plus noise on data
-        nInput[i].refreshdata(data)
+for k in range(26):
+    for j,image in enumerate(images):
 
-    for i in range(out_num):
-        result.append(nOutput[i].output())
-        temp += (nOutput[i].output() - answer[j][i])**2
-    print result
+        for i ,data in enumerate(image):
+            noiseProb = k*0.01
+            data = NoiseGenerator(data) ###plus noise on data
+            nInput[i].refreshdata(data)
 
-eff = np.sqrt(temp)
+        for i in range(out_num):
+            temp += (nOutput[i].output() - answer[j][i])**2
 
+        if (k == 0):
+            result = []
+            for i in range(out_num):
+                result.append(nOutput[i].output())
 
+            print result
+
+        eff.append(np.sqrt(temp))
+
+print '\n'
+print '\n'
 print '*** printing coefficient***'
 print 'middle layer neuron number =',m_num
-print "repeat num =", repeatNum*out_num
-print "efficient =", eff
-print "noise probability =",noiseProb
-print "eva =", eva
-print "ALPHA = ",1,", ETA =",neuron.Neuron.ETA
+print 'repeat num =', count / out_num
+print 'eva =', eva
+print 'ALPHA = ',1,', ETA =',neuron.Neuron.ETA
+print '\n'
+for k in range (26):
+    print 'noiseProb =', k*0.01, ' ->  efficient =', eff[k]
