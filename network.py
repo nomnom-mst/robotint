@@ -142,7 +142,7 @@ print '\n'
 print '*** printing coefficient***'
 print 'middle layer neuron number =',m_num
 print 'repeat num =', count / out_num
-print 'eva =', eva
+print 'learning evaluation =', eva
 print 'ALPHA = ',1,', ETA =',neuron.Neuron.ETA
 print '\n'
 for k in range (26):
